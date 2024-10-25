@@ -19,5 +19,30 @@
             maxZoom: 19,
         }).addTo(map);
     </script>
+    <script>
+    var map = L.map('map').setView([7.0, 125.0], 13); // Sample coordinates
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // Inline KML data for testing
+    const kmlData = `
+        <?xml version="1.0" encoding="UTF-8"?>
+        <kml xmlns="http://www.opengis.net/kml/2.2">
+            <Placemark>
+                <name>Test Marker</name>
+                <Point>
+                    <coordinates>125.0,7.0</coordinates>
+                </Point>
+            </Placemark>
+        </kml>
+    `;
+    const parser = new DOMParser();
+    const kml = parser.parseFromString(kmlData, 'text/xml');
+    const track = new L.KML(kml);
+    map.addLayer(track);
+</script>
+
 </body>
 </html>
