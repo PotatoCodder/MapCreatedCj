@@ -1,10 +1,28 @@
-<DOCTYPE HTML>
-  <html>
-<head></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHowCaseMap</title>
+</head>
 <body>
-<h1>Hello There!</h1>
-  <p>I hope you did have a nice day</p>
+    
 
-  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-kml/1.4.0/leaflet.kml.min.js"></script>
+
+    <script>
+        var map = L.map('map').setView([7.05783, 125.593455], 18);
+      
+        // Base map layer (OpenStreetMap or another tile provider)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+      
+        // Load the KML file
+        var kmlLayer = new L.KML("Test4Map.kmz", {async: true});
+        kmlLayer.on("loaded", function(e) { map.fitBounds(e.target.getBounds()); });
+        map.addLayer(kmlLayer);
+      </script>
+       
 </body>
-  </html>
+</html>
