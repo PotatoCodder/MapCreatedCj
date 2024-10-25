@@ -14,23 +14,24 @@
 <body>
     <div id="map"></div>
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([7.0, 125.0], 13); // Sample coordinates
+       function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 10,
+        center: { lat: 37.4419, lng: -122.1419 }, // Center the map
+    });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
+    const kmlLayer = new google.maps.KmlLayer({
+        url: "URL_TO_YOUR_KML_FILE.kml",
+        map: map,
+    });
 
-        // Load KML using Omnivore
-        omnivore.kml('https://potatocodder.github.io/MapCreatedCj/') // Replace with your KML file URL
-            .on('ready', function() {
-                this.addTo(map); // Add KML data to the map
-                console.log('KML layer added to the map');
-            })
-            .on('error', function(e) {
-                console.error('Error loading KML:', e);
-            });
+    kmlLayer.addListener("status_changed", () => {
+        if (kmlLayer.getStatus() !== "OK") {
+            console.error("KML Layer failed to load: " + kmlLayer.getStatus());
+        }
+    });
+}
+
     </script>
-    <script src="https://unpkg.com/leaflet-kml/leaflet-kml.js"></script>
 </body>
 </html>
