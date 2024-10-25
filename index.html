@@ -6,7 +6,7 @@
     <title>Leaflet KML Test</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-kml/leaflet-kml.js"></script>
+    <script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script> <!-- Include Omnivore -->
     <style>
         #map { height: 100vh; }
     </style>
@@ -14,32 +14,23 @@
 <body>
     <div id="map"></div>
     <script>
-        // Check if the map is already initialized
-        if (typeof map === 'undefined') {
-            // Initialize the map
-            var map = L.map('map').setView([7.0, 125.0], 13); // Sample coordinates
+        // Initialize the map
+        var map = L.map('map').setView([7.0, 125.0], 13); // Sample coordinates
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-            }).addTo(map);
-        }
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
 
-        // Inline KML data for testing
-        const kmlData = `
-            <?xml version="1.0" encoding="UTF-8"?>
-            <kml xmlns="http://www.opengis.net/kml/2.2">
-                <Placemark>
-                    <name>Test Marker</name>
-                    <Point>
-                        <coordinates>125.0,7.0</coordinates>
-                    </Point>
-                </Placemark>
-            </kml>
-        `;
-        const parser = new DOMParser();
-        const kml = parser.parseFromString(kmlData, 'text/xml');
-        const track = new L.KML(kml);
-        map.addLayer(track);
+        // Load KML using Omnivore
+        omnivore.kml('https://potatocodder.github.io/MapCreatedCj/') // Replace with your KML file URL
+            .on('ready', function() {
+                this.addTo(map); // Add KML data to the map
+                console.log('KML layer added to the map');
+            })
+            .on('error', function(e) {
+                console.error('Error loading KML:', e);
+            });
     </script>
+    <script src="https://unpkg.com/leaflet-kml/leaflet-kml.js"></script>
 </body>
 </html>
