@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Map with Multiple KML Layers</title>
+    <title>Basic Leaflet Map Test</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 100vh; }
@@ -12,56 +12,12 @@
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-kml/leaflet-kml.js"></script>
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([7.05783, 125.593455], 18);
+        var map = L.map('map').setView([7.0, 125.0], 13); // Sample coordinates
 
-        // Add base tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
+            maxZoom: 19,
         }).addTo(map);
-
-        // Function to add a KML layer
-        function addKmlLayer(url) {
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-            console.log(`Fetched: ${url}`);
-            return response.text();
-        })
-        .then(kmlText => {
-            console.log(`Loaded KML text for ${url}`);
-            const parser = new DOMParser();
-            const kml = parser.parseFromString(kmlText, 'text/xml');
-            const track = new L.KML(kml);
-            map.addLayer(track);
-        })
-        .catch(error => console.error('Error loading KML:', error));
-}
-
-        
-
-        // Add multiple KML layers
-        addKmlLayer('Badjao.kml'); // Replace with your first KML file name
-        addKmlLayer('Bagobo.kml'); // Replace with your second KML file name
-        addKmlLayer('FCB Ground.kml');
-        addKmlLayer('Front Lawn.kml');
-        addKmlLayer('Juna.kml');
-        addKmlLayer('Maguindanao.kml');
-        addKmlLayer('Mandaya.kml');
-        addKmlLayer('Mansaka.kml');
-        addKmlLayer('Maranao.kml');
-        addKmlLayer('Pavilion.kml');
-        addKmlLayer('RSM.kml');
-        addKmlLayer('Tboli building.kml');
-        addKmlLayer('Test4Map.kml'); // Replace with your third KML file name
-
-        // Add more as needed
-        
     </script>
-    addKmlLayer('test.kml');
-
-    
 </body>
 </html>
