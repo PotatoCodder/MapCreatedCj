@@ -24,14 +24,22 @@
 
         // Function to add a KML layer
         function addKmlLayer(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(kmlText => {
-                    const parser = new DOMParser();
-                    const kml = parser.parseFromString(kmlText, 'text/xml');
-                    const track = new L.KML(kml);
-                    map.addLayer(track);
-                });
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            console.log(`Fetched: ${url}`);
+            return response.text();
+        })
+        .then(kmlText => {
+            console.log(`Loaded KML text for ${url}`);
+            const parser = new DOMParser();
+            const kml = parser.parseFromString(kmlText, 'text/xml');
+            const track = new L.KML(kml);
+            map.addLayer(track);
+        })
+        .catch(error => console.error('Error loading KML:', error));
+}
+
         }
 
         // Add multiple KML layers
